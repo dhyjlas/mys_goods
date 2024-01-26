@@ -1,0 +1,41 @@
+html,
+body {
+  height: 100%;
+  --unified-menu-text-color: #fff;
+  --unified-menu-bg-color: #323232;
+}
+body {
+  margin: 0;
+}
+.main-title{
+  font-weight: 700;
+}
+.main-page {
+  padding: 10px;
+  background: #ffffff;
+  min-height: calc(100% - 99px);
+  display: flex;
+  flex-direction: column;
+}
+.main-title {
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #303133;
+}
+.main-search-bar {
+  flex-shrink: 0;
+  width: 100%;
+  margin-bottom: 15px;
+}
+.main-content-bar {
+  flex: auto;
+  width: 100%;
+}
+.main-content-operate-bar {
+  margin-bottom: 8px;
+}
+.main-page [class^="hope-icon"] {
+  margin-right: 4px;
+}

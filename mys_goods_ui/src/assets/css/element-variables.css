@@ -1,0 +1,52 @@
+:root {
+  /* --el-font-size-base: 14px; */
+}
+.el-table td,
+.el-table th {
+  padding: 8px 0;
+}
+.el-table{
+  width: 100%;
+  font-size: 13px;
+  color: #515a6e;
+  --el-table-header-bg-color: #f8f8f9;
+  --el-table-header-text-color: #606266;
+}
+.el-table__header-wrapper tr th.el-table-fixed-column--right{
+  background-color: var(--el-table-header-bg-color) !important;
+}
+.el-form-item__label{
+  font-weight: 700;
+}
+.el-card {
+  --el-card-padding: 20px 20px 10px 20px;
+}
+.el-notification .el-icon-success {
+  color: var(--el-color-success);
+}
+.el-menu.el-menu--horizontal {
+  border-bottom: none;
+}
+.el-popper.is-light {
+  border: none;
+}
+.el-button-group .el-button--info:last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.el-table__row .el-button-group .el-button--small{
+  font-size: 13px;
+}
+.el-select {
+  width: 100%;
+}
+.el-input-number__decrease, .el-input-number__increase{
+  top: 2px;
+}
+.el-table__cell .el-link{
+  margin-right: 5px;
+  font-size: 13px;
+}
+.el-table__cell .el-dropdown{
+  line-height: 23px;
+}

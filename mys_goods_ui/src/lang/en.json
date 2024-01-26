@@ -1,0 +1,42 @@
+{
+  "button": {
+    "add": "Add",
+    "update": "Update",
+    "delete": "Delete",
+    "query": "Query",
+    "clear": "Clear",
+    "detail": "Detail",
+    "more": "More",
+    "select": "Select",
+    "setPrivate": "Private Auth",
+    "setMenu": "Setup Menu",
+    "refresh": "Refresh"
+  },
+  "login": {
+    "button": "Sign In"
+  },
+  "tableTest": {
+    "title": "Table Test",
+    "id": "ID",
+    "name": "Name",
+    "sex": "Sex",
+    "phone": "Phone",
+    "address": "Address",
+    "operate": "Aperate",
+    "male": "male",
+    "female": "female",
+    "unknown": "unknown",
+    "input_name": "Please enter your name",
+    "input_sex": "Please select your gender",
+    "input_phone": "Please enter your mobile number",
+    "input_address": "Please enter your address"
+  },
+  "header": {
+    "language": "English"
+  },
+  "tips": {
+    "warning": "Warning",
+    "least_one": "Please select at least one item",
+    "delete": "Are you sure to delete?"
+  }
+}

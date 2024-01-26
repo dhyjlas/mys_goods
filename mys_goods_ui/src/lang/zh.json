@@ -1,0 +1,43 @@
+{
+  "copyright": "Copyright© 2023. All rights reserved.By Yjl https://github.com/dhyjlas",
+  "button": {
+    "add": "新增",
+    "update": "修改",
+    "delete": "删除",
+    "query": "查询",
+    "clear": "重置",
+    "detail": "详情",
+    "more": "更多",
+    "select": "请选择",
+    "setPrivate": "分配私权",
+    "setMenu": "分配菜单",
+    "refresh": "刷新"
+  },
+  "login": {
+    "button": "登 录"
+  },
+  "tableTest": {
+    "title": "表格测试",
+    "id": "编号",
+    "name": "姓名",
+    "sex": "性别",
+    "phone": "手机号",
+    "address": "地址",
+    "operate": "操作",
+    "male": "男性",
+    "female": "女性",
+    "unknown": "不明",
+    "input_name": "请输入姓名",
+    "input_sex": "请选择性别",
+    "input_phone": "请输入手机号",
+    "input_address": "请输入地址"
+  },
+  "header": {
+    "language": "中文"
+  },
+  "tips": {
+    "warning": "警告",
+    "least_one": "请至少选择一项",
+    "delete": "是否确认删除？"
+  }
+}
