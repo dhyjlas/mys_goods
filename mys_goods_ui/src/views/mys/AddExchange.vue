@@ -2,20 +2,29 @@
   <div class="main-page">
     <!-- 标题栏 -->
     <div class="main-title">选择一个商品</div>
+    <!-- 搜索栏 -->
+    <el-card shadow="never" class="main-search-bar">
+      <el-form :inline="true">
+        <el-form-item label="账号：">
+          {{userInfo.mys_uid?userInfo.mys_uid+'-'+userInfo.nickname:'未选择'}}
+          <i @click="selectUser('list')" class="hope-icon-sorting icon-select"></i>
+        </el-form-item>
+        <el-form-item label="分类：">
+          <el-select v-model="game" @change="getTableData">
+            <el-option label="崩坏3" value="bh3"></el-option>
+            <el-option label="原神" value="hk4e"></el-option>
+            <el-option label="崩坏：星穹铁道" value="hkrpg"></el-option>
+            <el-option label="崩坏学园2" value="bh2"></el-option>
+            <el-option label="未定事件簿" value="nxx"></el-option>
+            <el-option label="米游社" value="bbs"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+    </el-card>
     <!-- 内容框 -->
     <el-card shadow="never" class="main-content-bar">
       <!-- 操作栏 -->
       <div class="main-content-operate-bar">
-        <!-- 新增按钮 -->
-        <span>选择分类：</span>
-        <el-select v-model="game" @change="getTableData">
-          <el-option label="崩坏3" value="bh3"></el-option>
-          <el-option label="原神" value="hk4e"></el-option>
-          <el-option label="崩坏：星穹铁道" value="hkrpg"></el-option>
-          <el-option label="崩坏学园2" value="bh2"></el-option>
-          <el-option label="未定事件簿" value="nxx"></el-option>
-          <el-option label="米游社" value="bbs"></el-option>
-        </el-select>
         <div style="font-size: 13px;color: red;">目前仅支持需要抢购且还有库存的商品</div>
         <div style="font-size: 13px;color: red;">当前还有{{userInfo.point}}米游币，添加任务时请注意是否满足兑换条件</div>
         <div style="font-size: 13px;color: red;">选择地址或角色时不要选错，无地址或角色请先去客户端添加</div>
@@ -40,11 +49,13 @@
         </div>
       </div>
     </el-card>
+    <UserInfoList ref="userInfoList" @selectUser="selectUser"></UserInfoList>
     <AddExchangeInfo ref="addExchangeInfo"></AddExchangeInfo>
   </div>
 </template>
 
 <script>
+  import UserInfoList from "@/components/UserInfoList.vue";
   import AddExchangeInfo from "@/components/AddExchangeInfo.vue";
   export default {
     data() {
@@ -54,21 +65,39 @@
         },
         game: "hkrpg",
         tableData: [],
-        userInfo: localStorage.userInfo ? JSON.parse(localStorage.userInfo) : {
-          mys_uid: "未选择",
-          point: 0
-        },
+        userInfo: {},
       };
     },
     components: {
       AddExchangeInfo: AddExchangeInfo,
+      UserInfoList: UserInfoList,
     },
     mounted() {
-      this.getTableData();
+      if (this.$store.state.userInfo && this.$store.state.userInfo !== {} && this.$store.state.userInfo.mys_uid) {
+        this.userInfo = this.$store.state.userInfo;
+        this.getTableData();
+      } else {
+        this.$refs.userInfoList.openDialog();
+      }
     },
     methods: {
+      selectUser(e) {
+        if (e === "add") {
+          this.$refs.addUserInfo.openDialog();
+        } else if (e === "list") {
+          this.$refs.userInfoList.openDialog();
+        } else {
+          this.userInfo = e;
+          this.$store.commit("setUserInfo", this.userInfo);
+          this.getTableData();
+        }
+      },
       getTableData() {
         this.loading.table = true;
+        if (this.userInfo === {} || this.userInfo.mys_uid === null) {
+          this.loading.table = false;
+          return;
+        }
         this.axios
           .post("/goods/list", {
             uid: this.userInfo.mys_uid,
@@ -86,10 +115,6 @@
       },
       selectData(e) {
         e.game = this.game;
-        this.userInfo=localStorage.userInfo ? JSON.parse(localStorage.userInfo) : {
-          mys_uid: "未选择",
-          point: 0
-        },
         this.$refs.addExchangeInfo.openDialog(e, this.userInfo);
       }
     },
@@ -117,5 +142,12 @@
 
   .el-image {
     width: 200px;
+  }
+
+  .icon-select {
+    font-size: 17px;
+    cursor: pointer;
+    margin-left: 5px;
+    transform: rotate(90deg);
   }
 </style>

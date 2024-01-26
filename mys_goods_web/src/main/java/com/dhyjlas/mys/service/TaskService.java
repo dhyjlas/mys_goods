@@ -42,6 +42,14 @@ public class TaskService {
     public void run(ExchangeInfo exchangeInfo, UserInfo userInfo, long offset) throws InterruptedException {
         log.info("即将进行兑换：{}", exchangeInfo.getGoods_name());
 
+        try {
+            //检查兑换文件是否还在
+            exchangeInfo = fileService.findExchangeInfo(exchangeInfo);
+        } catch (Exception e) {
+            log.error("兑换信息不存在，任务已终止");
+            return;
+        }
+
         //检查Cookie是否有效，无效则及时更新
         boolean isExpire = mysService.checkCookie(userInfo.getCookie());
         if (isExpire) {
@@ -58,15 +66,16 @@ public class TaskService {
             if (TimeUtil.getCurrentMillisTime() - offset > exchangeInfo.getExchange_time() * 1000) {
                 for (int i = 0; i < thread; i++) {
                     int finalI = i;
+                    ExchangeInfo finalExchangeInfo = exchangeInfo;
                     ThreadPoolUtils.INSTANCE.execute(() -> {
                         for (int j = 0; j < retry; j++) {
                             try {
-                                log.info("正在进行兑换：{}", exchangeInfo.getGoods_name());
-                                String orderSn = mysService.exchangeGoods(userInfo, exchangeInfo);
+                                log.info("正在进行兑换：{}", finalExchangeInfo.getGoods_name());
+                                String orderSn = mysService.exchangeGoods(userInfo, finalExchangeInfo);
                                 if (StringUtils.isNotBlank(orderSn)) {
-                                    exchangeInfo.setStatus("兑换成功");
-                                    exchangeInfo.setOrderSn(orderSn);
-                                    fileService.writeExchangeInfo(exchangeInfo);
+                                    finalExchangeInfo.setStatus("兑换成功");
+                                    finalExchangeInfo.setOrderSn(orderSn);
+                                    fileService.writeExchangeInfo(finalExchangeInfo);
                                     break;
                                 }
                             } catch (Exception e) {

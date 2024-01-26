@@ -5,7 +5,7 @@
     <!-- 内容框 -->
     <el-card shadow="never" class="main-content-bar">
       <!-- 表格栏 -->
-      <el-table :data="tableData" @selection-change="handleSelectionChange" v-loading="loading.table">
+      <el-table :data="tableData" v-loading="loading.table">
         <el-table-column prop="id" label="ID" width="140" />
         <el-table-column prop="mys_uid" label="账号UID" />
         <el-table-column prop="goods_id" label="商品ID" />
@@ -16,10 +16,11 @@
         <el-table-column prop="region" label="游戏区服" />
         <el-table-column prop="address_id" label="地址" width="280">
           <template #default="scope">
-            <span v-if="scope.row.address_id != ''">{{scope.row.addressInfo.province_name}}{{scope.row.addressInfo.city_name}}{{scope.row.addressInfo.county_name}}<br />
-            {{scope.row.addressInfo.addr_ext}}<br />
-            {{scope.row.addressInfo.connect_areacode}} {{scope.row.addressInfo.connect_mobile}}<br />
-            {{scope.row.addressInfo.connect_name}}</span>
+            <span
+              v-if="scope.row.address_id != ''">{{scope.row.addressInfo.province_name}}{{scope.row.addressInfo.city_name}}{{scope.row.addressInfo.county_name}}<br />
+              {{scope.row.addressInfo.addr_ext}}<br />
+              {{scope.row.addressInfo.connect_areacode}} {{scope.row.addressInfo.connect_mobile}}<br />
+              {{scope.row.addressInfo.connect_name}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="exchange_time" label="兑换时间" width="100">
@@ -38,7 +39,6 @@
         </el-table-column>
       </el-table>
     </el-card>
-    <AddUserInfo ref="addUserInfo" @selectUser="finish"></AddUserInfo>
   </div>
 </template>
 
@@ -63,10 +63,10 @@
         this.$confirm(this.$t("tips.delete"), this.$t("tips.warning"), {
           type: "warning",
         }).then(() => {
-          this.$message({
+          this.$notify({
             message: "正在删除，请等待",
             type: "warning",
-          });
+          })
           this.delete(e)
         }).catch(e => e);
       },
@@ -94,6 +94,10 @@
           .then((res) => {
             if (res.data.code === 100) {
               this.getTableData();
+              this.$notify({
+                message: "删除成功",
+                type: "success",
+              })
             }
           })
       },

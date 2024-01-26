@@ -12,7 +12,7 @@
         </el-button>
       </div>
       <!-- 表格栏 -->
-      <el-table :data="tableData" @selection-change="handleSelectionChange" v-loading="loading.table">
+      <el-table :data="tableData" v-loading="loading.table">
         <el-table-column type="expand">
           <template #default="props">
             <div>游戏角色列表：</div>
@@ -88,7 +88,7 @@
         this.$confirm(this.$t("tips.delete"), this.$t("tips.warning"), {
           type: "warning",
         }).then(() => {
-          this.$message({
+          this.$notify({
             message: "正在删除，请等待",
             type: "warning",
           });
@@ -97,7 +97,7 @@
       },
       // 点击刷新按钮
       handleRefresh(e) {
-        this.$message({
+        this.$notify({
           message: "正在刷新，请等待",
           type: "warning",
         });
@@ -107,8 +107,11 @@
           })
           .then((res) => {
             if (res.data.code === 100) {
-              this.tableData = res.data.data;
               this.getTableData();
+              this.$notify({
+                message: "用户信息已刷新",
+                type: "success",
+              });
             }
           })
       },
@@ -135,6 +138,10 @@
           .then((res) => {
             if (res.data.code === 100) {
               this.getTableData();
+              this.$notify({
+                message: "用户信息已删除",
+                type: "success",
+              });
             }
           })
       },

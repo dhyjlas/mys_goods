@@ -139,10 +139,8 @@
         var regExp = /^1[3456789]\d{9}$/;
 
         if (regExp.test(phone)) {
-          console.log("手机号格式正确");
           return true;
         } else {
-          console.log("手机号格式不正确");
           return false;
         }
       }

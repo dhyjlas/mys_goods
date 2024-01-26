@@ -1,13 +1,5 @@
 <template>
   <div class="menu">
-    <div class="card">
-      <div style="margin:10px 10px;color:#fff;" v-if="!isCollapse">
-        当前账号：{{userInfo.mys_uid}}
-      </div>
-      <div style="margin:10px 10px;color:#fff;" v-if="!isCollapse">
-        昵称：{{userInfo.nickname}}
-      </div>
-    </div>
     <el-menu :collapse="isCollapse" :default-active="activeIndex" :unique-opened="uniqueOpened"
       :background-color="bgColor" :text-color="textColor" :active-text-color="activeColor">
       <!-- 一级菜单 -->
@@ -68,9 +60,6 @@
         type: String,
         default: null,
       },
-      userInfo: {
-        type: Object,
-      },
       uniqueOpened: {
         type: Boolean,
         default: true,
@@ -91,10 +80,5 @@
   .menu .el-menu-item.is-active {
     background-color: #323232;
     border-left: 3px solid var(--el-menu-active-color);
-  }
-  
-  .card{
-    margin: 10px;
-    border: 2px solid white;
   }
 </style>

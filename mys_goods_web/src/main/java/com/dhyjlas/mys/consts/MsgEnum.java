@@ -50,6 +50,9 @@ public enum MsgEnum {
     ERROR_GET_STOKEN(227, "获取stoken失败，请重新尝试"),
     INVALID_USER_FILE(228, "找不到用户文件"),
     ERROR_USER_FILE(229, "用户文件错误"),
+    INVALID_EXCHANGE_FILE(230, "找不到兑换文件"),
+    ERROR_EXCHANGE_FILE(231, "兑换文件错误"),
+    ERROR_COOKIE_LOGOUT(232, "登录状态已失效，请重新添加用户"),
 
     //3、4开头，外部接口错误
     INVALID_MOBILE(301, "请输入手机号"),

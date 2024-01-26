@@ -84,7 +84,6 @@ public class FileService {
         } catch (Exception e) {
             throw new BusinessException(MsgEnum.ERROR_USER_FILE);
         }
-
     }
 
     /**
@@ -152,6 +151,24 @@ public class FileService {
         }
 
         return exchangeInfoList;
+    }
+
+
+    /**
+     * 读取一个兑换文件
+     *
+     * @return List<UserInfo>
+     */
+    public ExchangeInfo findExchangeInfo(ExchangeInfo exchangeInfo) {
+        File file = new File(exchangePath + "/" + exchangeInfo.getMys_uid() + "_" + exchangeInfo.getId() + ".json");
+        if (!file.exists() || file.isDirectory()) {
+            throw new BusinessException(MsgEnum.INVALID_EXCHANGE_FILE);
+        }
+        try {
+            return JSON.parseObject(FileUtil.read(file), ExchangeInfo.class);
+        } catch (Exception e) {
+            throw new BusinessException(MsgEnum.ERROR_EXCHANGE_FILE);
+        }
     }
 
     /**

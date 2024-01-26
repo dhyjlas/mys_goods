@@ -46,13 +46,13 @@ public class ControllerAcpect {
             }
         }
 
-        String content = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n" +
+        String content = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
                 String.format("┃  URL            : %s\n", request.getRequestURL().toString()) +
                 String.format("┃  HTTP Method    : %s\n", request.getMethod()) +
                 String.format("┃  Class Method   : %s.%s\n", pjp.getSignature().getDeclaringTypeName(), pjp.getSignature().getName()) +
                 String.format("┃  IP             : %s\n", NetworkUtils.getClientAddress(request)) +
                 String.format("┃  Request Args   : %s\n", JSON.toJSONString(params)) +
-                "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛";
+                "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
         log.info("\n{}", content);
 
         return pjp.proceed();

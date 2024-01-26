@@ -1,7 +1,7 @@
 import {
   createRouter,
-  createWebHistory,
-  // createWebHashHistory,
+  // createWebHistory,
+  createWebHashHistory,
 } from "vue-router";
 
 const routes = [{
@@ -13,38 +13,39 @@ const routes = [{
     },
     component: () => import('@/views/index'),
     children: [{
-      path: "/user",
-      name: "userInfo",
-      meta: {
-        requiresAuth: true,
-        activeId: "userInfo",
-        title: "用户列表"
+        path: "/user",
+        name: "userInfo",
+        meta: {
+          requiresAuth: true,
+          activeId: "userInfo",
+          title: "用户列表"
+        },
+        component: () =>
+          import(`@/views/mys/UserInfo.vue`)
       },
-      component: () =>
-        import(`@/views/mys/UserInfo.vue`)
-    },
-    {
-      path: "/addExchange",
-      name: "addExchange",
-      meta: {
-        requiresAuth: true,
-        activeId: "addExchange",
-        title: "添加兑换"
+      {
+        path: "/addExchange",
+        name: "addExchange",
+        meta: {
+          requiresAuth: true,
+          activeId: "addExchange",
+          title: "添加兑换"
+        },
+        component: () =>
+          import(`@/views/mys/AddExchange.vue`)
       },
-      component: () =>
-        import(`@/views/mys/AddExchange.vue`)
-    },
-    {
-      path: "/exchange",
-      name: "exchangeInfo",
-      meta: {
-        requiresAuth: true,
-        activeId: "exchangeInfo",
-        title: "兑换列表"
-      },
-      component: () =>
-        import(`@/views/mys/ExchangeInfo.vue`)
-    }]
+      {
+        path: "/exchange",
+        name: "exchangeInfo",
+        meta: {
+          requiresAuth: true,
+          activeId: "exchangeInfo",
+          title: "兑换列表"
+        },
+        component: () =>
+          import(`@/views/mys/ExchangeInfo.vue`)
+      }
+    ]
   },
   {
     name: "404",
@@ -58,8 +59,8 @@ const routes = [{
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
-  // history: createWebHashHistory(),
+  // history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 });
 

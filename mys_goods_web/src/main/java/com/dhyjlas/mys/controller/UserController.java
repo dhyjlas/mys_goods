@@ -153,6 +153,10 @@ public class UserController {
         boolean isExpire = mysService.checkCookie(userInfo.getCookie());
         if (isExpire) {
             mysService.updateCookie(userInfo);
+            isExpire = mysService.checkCookie(userInfo.getCookie());
+            if (isExpire) {
+                throw new BusinessException(MsgEnum.ERROR_COOKIE_LOGOUT);
+            }
         }
         this.updateInfo(userInfo);
 
@@ -178,7 +182,7 @@ public class UserController {
         return JsonResult.success();
     }
 
-    private void updateInfo(UserInfo userInfo){
+    private void updateInfo(UserInfo userInfo) {
         try {
             userInfo.setPoint(mysService.getPoint(userInfo));
         } catch (Exception e) {

@@ -4,12 +4,14 @@ import com.dhyjlas.mys.consts.MsgEnum;
 import com.dhyjlas.mys.entity.ExchangeInfo;
 import com.dhyjlas.mys.entity.GoodsInfo;
 import com.dhyjlas.mys.exception.BusinessException;
+import com.dhyjlas.mys.schedule.ExchangeSchedule;
 import com.dhyjlas.mys.service.FileService;
 import com.dhyjlas.mys.service.MysService;
 import com.dhyjlas.mys.util.JsonResult;
 import com.dhyjlas.mys.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +32,9 @@ public class ExchangeController {
     private final FileService fileService;
 
     private final MysService mysService;
+
+    @Autowired
+    private ExchangeSchedule exchangeSchedule;
 
     public ExchangeController(FileService fileService, MysService mysService) {
         this.fileService = fileService;
@@ -105,6 +110,7 @@ public class ExchangeController {
 
         boolean f = fileService.writeExchangeInfo(exchangeInfo);
         if (f) {
+            exchangeSchedule.performTask();
             return JsonResult.success();
         }
         return JsonResult.failure();

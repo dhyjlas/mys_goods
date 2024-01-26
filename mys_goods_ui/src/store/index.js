@@ -5,13 +5,13 @@ import {
 export default createStore({
   state() {
     return {
-      authList: {}
+      userInfo: {},
     }
   },
   getters: {},
   mutations: {
-    setAuthList(state, e) {
-      state.authList = e;
+    setUserInfo(state, e) {
+      state.userInfo = e;
     }
   },
   actions: {},

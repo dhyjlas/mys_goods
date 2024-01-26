@@ -7,15 +7,13 @@
       <!-- 菜单栏 -->
       <el-aside :class="isCollapse ? 'asideClose' : 'asideOpen'">
         <LayoutMenu :isCollapse="isCollapse" :menuList="menuList" @evntClick="handleClick" :activeIndex="activeIndex"
-          :userInfo="userInfo" class="layoutMenu" />
+          class="layoutMenu" />
       </el-aside>
       <!-- 主窗体 -->
       <el-main ref="main">
         <router-view ref="scrollTopBox" />
       </el-main>
     </el-container>
-    <UserInfoList ref="userInfoList" @selectUser="selectUser"></UserInfoList>
-    <AddUserInfo ref="addUserInfo" @selectUser="selectUser"></AddUserInfo>
   </el-container>
 </template>
 
@@ -23,25 +21,13 @@
   import cn from "element-plus/dist/locale/zh-cn";
   import en from "element-plus/dist/locale/en";
   import LayoutMenu from "@/components/Aside.vue";
-  import UserInfoList from "@/components/UserInfoList.vue";
-  import AddUserInfo from "@/components/AddUserInfo.vue";
   export default {
     name: "App",
     data() {
       return {
         locale: this.$i18n.locale === "en" ? en : cn,
         isCollapse: document.body.clientWidth < 1320,
-        userInfo: localStorage.userInfo ? JSON.parse(localStorage.userInfo) : {
-          mys_uid: "未选择",
-          point: 0
-        },
         menuList: [{
-          index: "selectUser",
-          menuName: "更改当前账号",
-          menuIcon: "hope-icon-exchangerate",
-          menuType: "C",
-          menuState: 0
-        }, {
           index: "userInfo",
           menuName: "用户列表",
           menuIcon: "hope-icon-usercenter1",
@@ -67,8 +53,6 @@
     },
     components: {
       LayoutMenu: LayoutMenu,
-      UserInfoList: UserInfoList,
-      AddUserInfo: AddUserInfo,
     },
     watch: {
       '$route'(to) {
@@ -77,39 +61,19 @@
       },
       '$i18n.locale'(to) {
         this.locale = to === "en" ? en : cn;
-      }
+      },
     },
     mounted() {
       this.menu = this.foundMenu(this.menuList, this.activeIndex);
-      if (!localStorage.userInfo) {
-        this.activeIndex = "selectUser"
-        this.$refs.userInfoList.openDialog();
-      }
     },
     beforeUnmount() {
       window.onresize = null;
     },
     methods: {
-      selectUser(e) {
-        if (e === "add") {
-          this.$refs.addUserInfo.openDialog();
-        } else if (e === "list") {
-          this.$refs.userInfoList.openDialog();
-        } else {
-          this.userInfo = e;
-          localStorage.userInfo = JSON.stringify(this.userInfo);
-          this.activeIndex = this.$route.meta.activeId;
-        }
-      },
       changeCollapse(e) {
         this.isCollapse = e;
       },
       handleClick(e) {
-        if (e.index === "selectUser") {
-          this.activeIndex = "selectUser"
-          this.$refs.userInfoList.openDialog();
-          return;
-        }
         const r = this.foundByIndex(this.menuList, e.index);
         if (r.menuTarget == '_blank') {
           window.open(r.menuUrl, '_blank');
