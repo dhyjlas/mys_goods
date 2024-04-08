@@ -207,4 +207,14 @@ public class BookController {
     public JsonResult content(@RequestBody Book book) throws IOException {
         return JsonResult.success().data(bookService.getContent(book, book.getContentUrl()));
     }
+
+    @RequestMapping("/book/clear")
+    public JsonResult clear(@RequestBody Book book){
+        Book book1 = bookFileService.getBook(book.getFileName());
+        if(book1 != null){
+            book1.setProgress(0);
+            bookFileService.writeBook(book1);
+        }
+        return JsonResult.success();
+    }
 }

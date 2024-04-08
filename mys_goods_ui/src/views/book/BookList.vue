@@ -39,13 +39,32 @@
           </template>
         </el-table-column>
         <!-- 操作栏 -->
-        <el-table-column :label="$t('tableTest.operate')" align="center" fixed="right">
+        <!-- <el-table-column :label="$t('tableTest.operate')" align="center" fixed="right">
           <template #default="scope">
             <el-link @click="handlePreview(scope.row)" type="primary">预览</el-link>
             <el-link @click="handleBegin(scope.row)" type="primary">更新章节</el-link>
             <el-link @click="handleDownload(scope.row)" type="primary">下载TXT</el-link>
             <el-link @click="handleUpdate(scope.row)" type="primary">{{$t('button.update')}}</el-link>
             <el-link @click="handleDelete(scope.row)" type="primary">{{$t('button.delete')}}</el-link>
+            <el-link @click="handleClearUpdate(scope.row)" type="primary">重置更新</el-link>
+          </template>
+        </el-table-column> -->
+        <el-table-column :label="$t('tableTest.operate')" min-width="120" align="center" fixed="right">
+          <template #default="scope">
+            <!-- 详情按钮 -->
+            <el-link @click="handleBegin(scope.row)" type="primary">更新章节</el-link>
+            <el-link @click="handleDownload(scope.row)" type="primary">下载TXT</el-link>
+            <el-dropdown>
+              <el-link type="primary">{{$t('button.more')}}</el-link>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item @click="handlePreview(scope.row)">预览</el-dropdown-item>
+                  <el-dropdown-item @click="handleClearUpdate(scope.row)">重置更新</el-dropdown-item>
+                  <el-dropdown-item @click="handleUpdate(scope.row)">{{$t('button.update')}}</el-dropdown-item>
+                  <el-dropdown-item @click="handleDelete(scope.row)">{{$t('button.delete')}}</el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </template>
         </el-table-column>
       </el-table>
@@ -54,12 +73,15 @@
     <SaveBook ref="saveBook" @onSuccess="getTableData"></SaveBook>
     <!-- 章节组件 -->
     <Chapter ref="chapter"></Chapter>
+    <!-- 下载页组件 -->
+    <Download ref="download"></Download>
   </div>
 </template>
 
 <script>
   import SaveBook from "./SaveBook.vue";
   import Chapter from "./Chapter.vue";
+  import Download from "./Download.vue";
   export default {
     data() {
       return {
@@ -79,14 +101,16 @@
       // 新增修改组件
       SaveBook: SaveBook,
       // 预览组件
-      Chapter: Chapter
+      Chapter: Chapter,
+      // 下载页组件
+      Download: Download
     },
     mounted() {
       this.getTableData();
     },
     methods: {
       // 预览
-      handlePreview(e){
+      handlePreview(e) {
         this.$refs.chapter.openDialog({
           bookName: e.bookName,
           chapterUrl: e.chapterUrl,
@@ -111,6 +135,17 @@
             type: "warning",
           })
           this.delete(e)
+        }).catch(e => e);
+      },
+      handleClearUpdate(e) {
+        this.$confirm("该操作会使更新章节从头开始，是否确认", this.$t("tips.warning"), {
+          type: "warning",
+        }).then(() => {
+          this.$notify({
+            message: "正在重置，请等待",
+            type: "warning",
+          })
+          this.clearUpdate(e)
         }).catch(e => e);
       },
       handleUpdate(e) {
@@ -158,6 +193,20 @@
             }
           })
       },
+      clearUpdate(e) {
+        this.axios.post("/book/clear", {
+            fileName: e.fileName
+          })
+          .then((res) => {
+            if (res.data.code === 100) {
+              this.getTableData();
+              this.$notify({
+                message: "重置成功",
+                type: "success",
+              })
+            }
+          })
+      },
       // 开始爬取
       handleBegin(e) {
         this.axios.post("/book/begin", e)
@@ -176,7 +225,8 @@
             if (res.data.code === 100) {
               const baseUrl = process.env.NODE_ENV == "development" ? "/api" : "";
               const fileUrl = baseUrl + "/book/download/" + e.bookName
-              window.open(fileUrl);
+              // window.open(fileUrl);
+              this.$refs.download.openDialog(fileUrl);
             }
           })
       },

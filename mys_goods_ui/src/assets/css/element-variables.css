@@ -50,3 +50,9 @@
 .el-table__cell .el-dropdown{
   line-height: 23px;
 }
+.el-table__cell .el-dropdown {
+    line-height: 24.6px;
+}
+.el-dropdown-menu__item {
+    font-size: 13px;
+}

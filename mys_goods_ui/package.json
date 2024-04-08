@@ -11,6 +11,7 @@
     "axios": "^0.24.0",
     "core-js": "^3.8.3",
     "element-plus": "^2.2.0",
+    "qrcodejs2": "^0.0.2",
     "vue": "^3.2.1multi-word3",
     "vue-i18n": "^9.1.0",
     "vue-router": "^4.0.3",

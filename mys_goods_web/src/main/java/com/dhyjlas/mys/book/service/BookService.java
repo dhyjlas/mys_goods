@@ -11,6 +11,7 @@ import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.NumberUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -62,12 +63,23 @@ public class BookService {
     public boolean download(Book book) throws IOException, InterruptedException {
         LocalCache.BOOK_DOWNLOAD.put(book.getFileName(), 0);
 
+        int start = 0;
+        if (book.getChapterNum() != null && book.getChapterNum() > 0 && book.getProgress() != null && book.getProgress() > 0) {
+            File oldFile = new File(downloadPath + "/" + book.getBookName() + ".txt");
+            if (oldFile.exists() && oldFile.isFile()) {
+                start = book.getProgress();
+            }
+        }
+
         Map<String, String> header = labelValueToMap(book.getHeader());
         Document document = XPathCrawlUtils.connAndGetDocument(book.getChapterUrl(), header);
         List<String> textList = XPathCrawlUtils.parseToList(document, book.getChapterPath() + "/text()");
         List<String> urlList = XPathCrawlUtils.parseToList(document, book.getChapterPath() + "/@href");
 
         int size = Math.min(textList.size(), urlList.size());
+        if (start >= size) {
+            return true;
+        }
 
         Book newBook = bookFileService.getBook(book.getFileName());
         newBook.setChapterNum(size);
@@ -79,36 +91,38 @@ public class BookService {
         }
 
         Path path = Paths.get(downloadPath + "/" + book.getBookName() + ".txt");
-        BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8, StandardOpenOption.CREATE);
-        writer.write(book.getBookName());
-        writer.newLine();
-        writer.newLine();
-        for (int i = 0; i < size; i++) {
-            log.info("正在下载【{}】({}/{})", textList.get(i), i + 1, size);
-            String content = "";
-            for (int j = 0; j < 10; j++) {
-                try {
-                    content = getContent(book, urlList.get(i), header);
-                } catch (Exception e) {
-                    log.error("失败重试 {}", j);
-                    Thread.sleep(j * 1000);
-                }
-
-                if (StringUtils.isNotBlank(content)) {
-                    break;
-                }
+        try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8, start == 0 ? StandardOpenOption.CREATE : StandardOpenOption.APPEND)) {
+            if (start == 0) {
+                writer.write(book.getBookName());
             }
-            writer.write(textList.get(i));
-            writer.newLine();
-            writer.write(content);
             writer.newLine();
             writer.newLine();
-            writer.flush();
+            for (int i = start; i < size; i++) {
+                log.info("正在下载【{}】({}/{})", textList.get(i), i + 1, size);
+                String content = "";
+                for (int j = 0; j < 10; j++) {
+                    try {
+                        content = getContent(book, urlList.get(i), header);
+                    } catch (Exception e) {
+                        log.error("失败重试 {}", j);
+                        Thread.sleep(j * 1000);
+                    }
 
-            LocalCache.BOOK_DOWNLOAD.put(book.getFileName(), i + 1);
+                    if (StringUtils.isNotBlank(content)) {
+                        break;
+                    }
+                }
+                writer.write(textList.get(i));
+                writer.newLine();
+                writer.write(content);
+                writer.newLine();
+                writer.newLine();
+                writer.flush();
+
+                LocalCache.BOOK_DOWNLOAD.put(book.getFileName(), i + 1);
+            }
+            writer.flush();
         }
-        writer.flush();
-        writer.close();
 
         LocalCache.BOOK_DOWNLOAD.invalidate(book.getFileName());
         newBook = bookFileService.getBook(book.getFileName());
@@ -194,7 +208,7 @@ public class BookService {
 
         int size = Math.min(textList.size(), urlList.size());
         List<KeyValue> keyValueList = new ArrayList<>();
-        for(int i = 0;i<size;i++){
+        for (int i = 0; i < size; i++) {
             keyValueList.add(new KeyValue(urlList.get(i), textList.get(i)));
         }
         return keyValueList;
