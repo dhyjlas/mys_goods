@@ -13,7 +13,7 @@ body {
 .main-page {
   padding: 10px;
   background: #ffffff;
-  min-height: calc(100% - 99px);
+  min-height: calc(100% - 20px);
   display: flex;
   flex-direction: column;
 }

@@ -5,11 +5,18 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 本地缓存
+ */
 public enum LocalCache {
+    /**
+     * 1
+     */
     TICKET(100, 50000, 1, TimeUnit.DAYS),
     STOKEN(100, 50000, 1, TimeUnit.DAYS),
     UID(100, 50000, 1, TimeUnit.DAYS),
-    TASK(100, 50000, 1, TimeUnit.DAYS)
+    TASK(100, 50000, 1, TimeUnit.DAYS),
+    BOOK_DOWNLOAD(100, 50000, 1, TimeUnit.DAYS)
 
     ;
 

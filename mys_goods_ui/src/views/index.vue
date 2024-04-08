@@ -8,6 +8,9 @@
       <el-aside :class="isCollapse ? 'asideClose' : 'asideOpen'">
         <LayoutMenu :isCollapse="isCollapse" :menuList="menuList" @evntClick="handleClick" :activeIndex="activeIndex"
           class="layoutMenu" />
+        <span :class="isCollapse ? 'armrest armrestClose' : 'armrest armrestOpen'" @click="changeCollapse(!isCollapse)">
+          <i :class="isCollapse ? 'hope-icon-arrow-right i-right' : 'hope-icon-arrow-right i-left'"></i>
+        </span>
       </el-aside>
       <!-- 主窗体 -->
       <el-main ref="main">
@@ -28,24 +31,50 @@
         locale: this.$i18n.locale === "en" ? en : cn,
         isCollapse: document.body.clientWidth < 1320,
         menuList: [{
-          index: "userInfo",
-          menuName: "用户列表",
-          menuIcon: "hope-icon-usercenter1",
-          menuType: "C",
-          menuState: 0
-        }, {
-          index: "addExchange",
-          menuName: "新增兑换",
-          menuIcon: "hope-icon-add-cart-fill",
-          menuType: "C",
-          menuState: 0
-        }, {
-          index: "exchangeInfo",
-          menuName: "兑换列表",
-          menuIcon: "hope-icon-cart-Empty-fill",
-          menuType: "C",
-          menuState: 0
-        }, ],
+          index: "mys",
+          menuName: "米游币兑换",
+          menuIcon: "hope-icon-consumption",
+          menuType: "M",
+          menuState: 0,
+          children: [{
+            index: "userInfo",
+            menuName: "用户列表",
+            menuIcon: "hope-icon-usercenter1",
+            menuType: "C",
+            menuState: 0
+          }, {
+            index: "addExchange",
+            menuName: "新增兑换",
+            menuIcon: "hope-icon-add-cart-fill",
+            menuType: "C",
+            menuState: 0
+          }, {
+            index: "exchangeInfo",
+            menuName: "兑换列表",
+            menuIcon: "hope-icon-cart-Empty-fill",
+            menuType: "C",
+            menuState: 0
+          }]
+        },{
+          index: "book",
+          menuName: "小说下载",
+          menuIcon: "hope-icon-consumption",
+          menuType: "M",
+          menuState: 0,
+          children: [{
+            index: "website",
+            menuName: "站点配置",
+            menuIcon: "hope-icon-usercenter1",
+            menuType: "C",
+            menuState: 0
+          },{
+            index: "bookList",
+            menuName: "小说列表",
+            menuIcon: "hope-icon-usercenter1",
+            menuType: "C",
+            menuState: 0
+          }]
+        }],
         activeIndex: this.$route.meta.activeId,
         activeMenu: {},
         menu: {}
@@ -164,7 +193,8 @@
   }
 
   .asideClose {
-    width: 64px;
+    /* width: 64px; */
+    width: 0px;
     transition: width 0.3s;
   }
 
@@ -175,5 +205,49 @@
 
   .el-header {
     --el-header-height: 58px;
+  }
+
+  .armrest {
+    z-index: 100;
+    width: 14px;
+    height: 34px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: rgb(191, 191, 191);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: none;
+    background-color: #3d3d3d;
+  }
+
+  .armrest:hover {
+    background-color: #323232
+  }
+
+  .armrestClose {
+    left: 0px;
+    /* left: 64px; */
+    border-radius: 0px 2px 2px 0px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16);
+    transition: left 0.3s;
+  }
+
+  .armrestOpen {
+    left: 196px;
+    border-radius: 2px 0px 0px 2px;
+    transition: left 0.3s;
+  }
+
+  .i-right {
+    transform: none;
+    transition: transform 0.5s;
+  }
+
+  .i-left {
+    transform: rotateZ(-180deg);
+    transition: transform 0.5s;
   }
 </style>

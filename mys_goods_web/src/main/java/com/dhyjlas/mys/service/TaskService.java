@@ -1,10 +1,8 @@
 package com.dhyjlas.mys.service;
 
 import com.alibaba.fastjson.JSON;
-import com.dhyjlas.mys.consts.MsgEnum;
 import com.dhyjlas.mys.entity.ExchangeInfo;
 import com.dhyjlas.mys.entity.UserInfo;
-import com.dhyjlas.mys.exception.BusinessException;
 import com.dhyjlas.mys.util.ThreadPoolUtils;
 import com.dhyjlas.mys.util.TimeUtil;
 import lombok.extern.slf4j.Slf4j;

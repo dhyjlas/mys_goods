@@ -18,4 +18,11 @@ public class LabelValue implements Serializable {
     private String label;
     private String value;
     private List<LabelValue> children;
+
+    public LabelValue(){}
+
+    public LabelValue(String label, String value){
+        this.label = label;
+        this.value = value;
+    }
 }

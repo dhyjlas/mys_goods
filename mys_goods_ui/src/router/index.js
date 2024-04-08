@@ -5,58 +5,79 @@ import {
 } from "vue-router";
 
 const routes = [{
-    path: '/',
-    name: 'index',
-    meta: {
-      requiresAuth: true,
-      title: '首页'
-    },
-    component: () => import('@/views/index'),
-    children: [{
-        path: "/user",
-        name: "userInfo",
-        meta: {
-          requiresAuth: true,
-          activeId: "userInfo",
-          title: "用户列表"
-        },
-        component: () =>
-          import(`@/views/mys/UserInfo.vue`)
-      },
-      {
-        path: "/addExchange",
-        name: "addExchange",
-        meta: {
-          requiresAuth: true,
-          activeId: "addExchange",
-          title: "添加兑换"
-        },
-        component: () =>
-          import(`@/views/mys/AddExchange.vue`)
-      },
-      {
-        path: "/exchange",
-        name: "exchangeInfo",
-        meta: {
-          requiresAuth: true,
-          activeId: "exchangeInfo",
-          title: "兑换列表"
-        },
-        component: () =>
-          import(`@/views/mys/ExchangeInfo.vue`)
-      }
-    ]
+  path: '/',
+  name: 'index',
+  meta: {
+    requiresAuth: true,
+    title: '首页'
   },
-  {
-    name: "404",
-    path: '/404',
-    meta: {
-      title: '404'
+  component: () => import('@/views/index'),
+  children: [{
+      path: "/user",
+      name: "userInfo",
+      meta: {
+        requiresAuth: true,
+        activeId: "userInfo",
+        title: "用户列表"
+      },
+      component: () =>
+        import(`@/views/mys/UserInfo.vue`)
     },
-    component: () =>
-      import('@/views/exception/404')
-  },
-];
+    {
+      path: "/addExchange",
+      name: "addExchange",
+      meta: {
+        requiresAuth: true,
+        activeId: "addExchange",
+        title: "添加兑换"
+      },
+      component: () =>
+        import(`@/views/mys/AddExchange.vue`)
+    },
+    {
+      path: "/exchange",
+      name: "exchangeInfo",
+      meta: {
+        requiresAuth: true,
+        activeId: "exchangeInfo",
+        title: "兑换列表"
+      },
+      component: () =>
+        import(`@/views/mys/ExchangeInfo.vue`)
+    },
+    {
+      path: "/website",
+      name: "website",
+      meta: {
+        requiresAuth: true,
+        activeId: "website",
+        title: "站点配置"
+      },
+      component: () =>
+        import(`@/views/book/WebsiteList.vue`)
+    },
+    {
+      path: "/book",
+      name: "bookList",
+      meta: {
+        requiresAuth: true,
+        activeId: "bookList",
+        title: "小说列表"
+      },
+      component: () =>
+        import(`@/views/book/BookList.vue`)
+    },
+    {
+      name: "404",
+      path: '/404',
+      meta: {
+        title: '404'
+      },
+      component: () =>
+        import('@/views/exception/404')
+    },
+  ]
+}];
 
 const router = createRouter({
   // history: createWebHistory(),

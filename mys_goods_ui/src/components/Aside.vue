@@ -1,6 +1,7 @@
 <template>
   <div class="menu">
-    <el-menu :collapse="isCollapse" :default-active="activeIndex" :unique-opened="uniqueOpened"
+    <!-- :collapse="isCollapse" -->
+    <el-menu :default-active="activeIndex" :unique-opened="uniqueOpened"
       :background-color="bgColor" :text-color="textColor" :active-text-color="activeColor">
       <!-- 一级菜单 -->
       <template v-for="menu in menuList" :key="menu">
@@ -79,6 +80,6 @@
 
   .menu .el-menu-item.is-active {
     background-color: #323232;
-    border-left: 3px solid var(--el-menu-active-color);
+    /* border-left: 3px solid var(--el-menu-active-color); */
   }
 </style>

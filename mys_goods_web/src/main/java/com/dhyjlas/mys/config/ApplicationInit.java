@@ -1,5 +1,6 @@
 package com.dhyjlas.mys.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
  * @author yjl.yu/dhyjlas@163.com
  * @version 1.0
  */
+@Slf4j
 @Component
 public class ApplicationInit implements ApplicationRunner {
     @Value("${windeows.web.isOpen:false}")
@@ -31,10 +33,10 @@ public class ApplicationInit implements ApplicationRunner {
             Runtime run = Runtime.getRuntime();
             try {
                 run.exec(runCmd);
-                System.out.println("启动浏览器打开项目成功");
+                log.info("启动浏览器打开项目成功");
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("启动项目自动打开浏览器失败");
+                log.error("启动项目自动打开浏览器失败");
             }
         }
     }

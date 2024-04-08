@@ -53,6 +53,12 @@ public enum MsgEnum {
     INVALID_EXCHANGE_FILE(230, "找不到兑换文件"),
     ERROR_EXCHANGE_FILE(231, "兑换文件错误"),
     ERROR_COOKIE_LOGOUT(232, "登录状态已失效，请重新添加用户"),
+    INVALID_HOST(233, "请输入域名"),
+    INVALID_NAME_PATH(234, "请输入书名爬取规则"),
+    INVALID_CHAPTER_PATH(235, "请输入章节爬取规则"),
+    INVALID_CONTENT_PATH(236, "请输入正文爬取规则"),
+    ERROR_BEGIN(237, "小说正在更新中"),
+    ERROR_NOT_PRESENT(238, "文件不存在，请先更新章节"),
 
     //3、4开头，外部接口错误
     INVALID_MOBILE(301, "请输入手机号"),

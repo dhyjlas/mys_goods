@@ -83,7 +83,9 @@
     methods: {
       selectUser(e) {
         if (e === "add") {
-          this.$refs.addUserInfo.openDialog();
+          this.$router.push({
+            name: "userInfo",
+          });
         } else if (e === "list") {
           this.$refs.userInfoList.openDialog();
         } else {
